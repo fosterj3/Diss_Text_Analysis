@@ -1,0 +1,106 @@
+---
+title: "Pdf_Texts"
+author: "Lamar Foster"
+date: "1/30/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(pdftools)
+library(tm)
+```
+
+```{r}
+# Next create a vector of PDF file names using the list.files function. The pattern argument says to only grab those files ending with “pdf”:, I also put all the pdfs in a folder called "Data"
+
+files <- list.files(path = "Data", pattern = "pdf$")
+```
+
+```{r}
+# The pdftools function for extracting text is pdf_text. Using the lapply function, we can apply the pdf_text function to each element in the “files” vector and create an object called “text”.
+
+sel_text <- lapply(files, pdf_text)
+
+# See how many pages each pdf is
+lapply(sel_text, length) 
+```
+
+```{r}
+# Create a corpus 
+corp <- Corpus(URISource(files), readerControl = list(reader = readPDF))
+```
+
+```{r}
+# Create a term-document matrix
+seltext.tdm <- TermDocumentMatrix(corp, 
+                                   control = 
+                                     list(removePunctuation = TRUE,
+                                          stopwords = TRUE,
+                                          tolower = TRUE,
+                                          stemming = TRUE,
+                                          removeNumbers = TRUE,
+                                          bounds = list(global = c(3, Inf))))
+```
+
+```{r}
+# Inspect tdm 
+inspect(seltext.tdm[1:3,]) 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
